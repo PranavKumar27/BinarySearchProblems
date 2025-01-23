@@ -109,11 +109,11 @@ int SquareRoot_Sol3(int N)
 // Return high as Ans
 int SquareRoot_Sol4(int N)
 {
-    int low = 1,high = N;
+    long long low = 1,high = N;
     while(low<=high)
     {
-        int mid = low + (high - low)/2;
-        int sq = mid*mid;
+        long long mid = low + (high - low)/2;
+        long long sq = mid*mid; // long long to avoid overflow
 
         if(sq<=N)
         {
