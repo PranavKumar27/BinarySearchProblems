@@ -26,53 +26,41 @@ On day 13   1  1  1  1  1   1   1  1  No of Groups of K = 2
 
 */
 
-int find_max(vector<int>& Arr)
+pair<int,int> find_max_min(vector<int>& Arr)
 {
     int max_val = -1e9;
+    int min_val = 1e9;
     for(int i=0;i<Arr.size();i++)
+    {
         max_val = max(max_val,Arr[i]);
-    return max_val;
+        min_val = min(min_val,Arr[i]);
+    }
+
+    return {max_val,min_val};
 }
 
-int find_No_Adjacent_Set(vector<int>& Bloom_Hash,int M,int K)
-{
-    int n = Bloom_Hash.size();
-    int total = 0;
-    int cnt = 0;
-    for(int i=0;i<n;i++)
-    {
-        if(cnt == K)
-        {
-            total = total+1;
-            cnt = 0;
-        }
-        if(Bloom_Hash[i]==1)
-            cnt++;
-        else if(Bloom_Hash[i]==0)
-        {
-            cnt = 0;
-        }
-    }
-    if(cnt==K)
-        total = total+1;
-    return total;
-}
 
 int find_bouquet(vector<int>& Arr,int day,int M,int K)
 {
     int n = Arr.size();
-    vector<int> Bloom_Hash(n,0);
+    int no_of_bouquet = 0,cnt = 0;
 
     for(int i=0;i<n;i++)
     {
         if(Arr[i]<=day)
-            Bloom_Hash[i]=1;
+            cnt++;
+        else
+        {
+            no_of_bouquet+=cnt/K;
+            cnt = 0;
+        }
     }
+    if(cnt>=K)
+        no_of_bouquet+=cnt/K;
 
-    int no_of_bouquet = find_No_Adjacent_Set(Bloom_Hash,M,K);
     return no_of_bouquet;
 }
-
+// TC --> O(N) * O(X) (where X is the diff of max - min in Arr)
 int find_day_Sol1(vector<int>& Arr,int M,int K)
 {
     int n = Arr.size();
@@ -80,8 +68,10 @@ int find_day_Sol1(vector<int>& Arr,int M,int K)
     if(n<no_of_flowers)
         return -1;
 
-    int max_day_to_Bloom = find_max(Arr);
-    for(int day=1;day<=max_day_to_Bloom;day++)
+    pair<int,int> pair_max_min = find_max_min(Arr);
+    int max_day_to_Bloom = pair_max_min.first;
+    int min_day_to_Bloom = pair_max_min.second;
+    for(int day=min_day_to_Bloom;day<=max_day_to_Bloom;day++)
     {
         int No_of_bouquet_Possible = find_bouquet(Arr,day,M,K);
         //cout << "ON Day=" << day << " No_of_bouquet_Possible=" << No_of_bouquet_Possible << endl;
@@ -93,13 +83,24 @@ int find_day_Sol1(vector<int>& Arr,int M,int K)
     }
 }
 
+// TC --> O(N) * O(Log X) (where X is the diff of max - min in Arr)
 int find_day_Sol2(vector<int>& Arr,int M,int K)
 {
-    int low = 0,high = find_max(Arr);
+    int n = Arr.size();
+    long long int no_of_flowers = m*1LL * k*1LL; // Convert to Long Long to avoid INT overflow
+    if(no_of_flowers>n)
+        return -1;
+
+    pair<int,int> pair_max_min = find_max_min(Arr);
+    int max_day_to_Bloom = pair_max_min.first;
+    int min_day_to_Bloom = pair_max_min.second;
+
+    int low = min_day_to_Bloom,high = max_day_to_Bloom;
+
 
     while(low<=high)
     {
-        int mid = low+(mid-low)/2;
+        int mid = low+(high-low)/2;
 
         int no_of_Bouquet = find_bouquet(Arr,mid,M,K);
 
