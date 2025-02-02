@@ -14,6 +14,28 @@ int sum(vector<int>& Arr)
     return s;
 }
 
+/*
+
+Arr  1  2  3  4  5  6  7  8  9  10
+
+     if Capacity = 10
+        day 1 load = 1+2+3+4 , load+5 < 10
+        day 2 load = 5 , load+6 < 10
+        day 3 load = 6 , load+7 < 10
+        day 4 load = 7 , load+8 < 10
+        day 5 load = 8 , load+9 < 10
+        day 6 load =  9 , load+10 < 10
+        day 6 load =  10
+
+Arr  1  2  3  4  5  6  7  8  9  10
+
+     if Capacity = 15
+        day 1 load= 1+2+3+4+5 , load+6 < 10
+        day 2 load= 6+7  , load+8 < 10
+        day 3 load= 8  , load+9 < 10
+        day 4 load= 9  , load+10 < 10
+        day 5 load = 10
+*/
 int findDaysToTransport(vector<int>& Arr,int capacity)
 {
     int n = Arr.size();
@@ -35,6 +57,7 @@ int findDaysToTransport(vector<int>& Arr,int capacity)
     //cout << "Required day =" << day << endl;
     return day;
 }
+
 
 int findDaysToTransport_2(vector<int>& Arr,int capacity)
 {
@@ -60,6 +83,37 @@ int findDaysToTransport_2(vector<int>& Arr,int capacity)
     }
     return day;
 }
+
+/*
+    Arr  1  2  3  4  5  6  7  8  9  10
+
+         10  11  12   13  14  15   16  17 18 19 ......................  55
+         low                                                            high
+
+         10  11  12   13  14  15   16  17 18 19 ............32..........  55
+         low                                               mid            high
+
+
+         10  11  12   13  14  15   16  17 18 19 .........20...............31..33..........  55
+         low                                            mid               high
+
+         10  11  12   13  14  15   16  17 18 19 .........19..20...............32..33..........  55
+         low              mid                            high
+
+         10  11  12   13  14  15   16  17 18 19 .........19..20...............32..33..........  55
+                              low     mid                high
+
+         10  11  12   13  14  15   16  17 18 19 .........19..20...............32..33..........  55
+                              low  high
+                              mid
+
+         10  11  12   13  14   15   16  17 18 19 .........19..20...............32..33..........  55  Condition Fails low<=high
+                          high low
+
+
+
+
+*/
 
 // TC --> O(max-min+1)*O(N)
 int find_Least_Capacity_of_Ship_Sol1(vector<int>& Arr,int& max_days)
