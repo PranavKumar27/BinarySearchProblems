@@ -92,6 +92,8 @@ int findNoOfSudentsPossible(vector<int>& Arr,int Max_pages)
     }
     return cnt;
 }
+
+// TC O(max-min+1)*O(N)
 int findMin_Allocate_Book_Pages_Sol1(vector<int>& Arr,int Students)
 {
     int max_pages = *max_element(Arr.begin(),Arr.end());
@@ -109,6 +111,7 @@ int findMin_Allocate_Book_Pages_Sol1(vector<int>& Arr,int Students)
 }
 
 
+// TC O(Log(max-min+1))*O(N)
 int findMin_Allocate_Book_Pages_Sol2(vector<int>& Arr,int Students)
 {
     int max_pages = *max_element(Arr.begin(),Arr.end());
