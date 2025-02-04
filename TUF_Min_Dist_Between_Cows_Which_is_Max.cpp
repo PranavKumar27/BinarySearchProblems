@@ -58,12 +58,18 @@ bool IsPossible_No_Of_Cows_Placed(vector<int>& Arr,int total_cows,int min_dist)
     }
     return false;
 }
+
+// TC --> O(NLogN) + O(M)*O(N) ~~ O(NLogN) + O(N^2)
+// O(NLogN) for Sorting
+// O(M) where M  = max - Arr[0]
+// O(N) for IsPossible_No_Of_Cows_Placed
+
 int findMaxCowsMinDistance_Sol1(vector<int> Arr,int total_cows)
 {
     sort(Arr.begin(),Arr.end());
 
     int n = Arr.size();
-    int max_dist = Arr[n-1];
+    int max_dist = Arr[n-1]-Arr[0];
     int max_min_dist = -1;
 
     for(int dist=1;dist<max_dist;dist++)
@@ -79,12 +85,16 @@ int findMaxCowsMinDistance_Sol1(vector<int> Arr,int total_cows)
 
 }
 
+// TC --> O(NLogN) + O(LogM)*O(N)
+// O(NLogN) for Sorting
+// O(LogM) where M  = max - Arr[0]
+// O(N) for IsPossible_No_Of_Cows_Placed
 
 int findMaxCowsMinDistance_Sol2(vector<int> Arr,int total_cows)
 {
     int n = Arr.size();
     sort(Arr.begin(),Arr.end());
-    int low = 0,high = Arr[n-1];
+    int low = 0,high = Arr[n-1]-Arr[0];
 
     while(low<=high)
     {
