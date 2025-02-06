@@ -75,6 +75,7 @@ int UpdateDistanceAndSector_Sol2(vector<int>& Arr,vector<int>& sector,priority_q
 
 }
 
+// TC --> O(K)*[O(N) + O(N) ]  ~~ O(N^2)
 int find_Max_Dist_Sol1(vector<int>& Arr,int K)
 {
     int n = Arr.size();
@@ -101,6 +102,7 @@ int find_Max_Dist_Sol1(vector<int>& Arr,int K)
     return max_dist;
 }
 
+// TC --> O(K)*[O(LogN) + O(LogN) ]  ~~ O(NLogN)
 int find_Max_Dist_Sol2(vector<int>& Arr,int K)
 {
     int n = Arr.size();
