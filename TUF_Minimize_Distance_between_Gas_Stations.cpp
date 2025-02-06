@@ -75,7 +75,6 @@ int UpdateDistanceAndSector_Sol2(vector<int>& Arr,vector<int>& sector,priority_q
 
 }
 
-// TC --> O(K)*[O(N) + O(N) ]  ~~ O(N^2)
 int find_Max_Dist_Sol1(vector<int>& Arr,int K)
 {
     int n = Arr.size();
@@ -102,7 +101,6 @@ int find_Max_Dist_Sol1(vector<int>& Arr,int K)
     return max_dist;
 }
 
-// TC --> O(K)*[O(LogN) + O(LogN) ]  ~~ O(NLogN)
 int find_Max_Dist_Sol2(vector<int>& Arr,int K)
 {
     int n = Arr.size();
@@ -111,24 +109,18 @@ int find_Max_Dist_Sol2(vector<int>& Arr,int K)
     priority_queue<pair<int,int>> pq;
     for(int i=0;i<=n-2;i++)
     {
-        All_dist[i] = Arr[i+1]-Arr[i];
-        pq.push({All_dist[i],i});
+        int val = Arr[i+1]-Arr[i];
+        pq.push({val,i});
     }
 
     cout << "PQ size =" << pq.size() << endl;
     print_PQ(pq);
-    print_v(All_dist);
     print_v(Sec);
 
     int max_dist = -1;
     for(int i=1;i<=K;i++)
     {
         max_dist = UpdateDistanceAndSector_Sol2(Arr,Sec,pq);
-        //cout << "distance" << endl;
-        print_v(All_dist);
-        //cout << "Sector" << endl;
-        print_v(Sec);
-
     }
     return max_dist;
 }
