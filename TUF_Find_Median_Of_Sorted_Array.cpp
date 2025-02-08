@@ -122,10 +122,17 @@ int MergeSortedArrayAndFindMedian_Sol2(vector<int>& Arr1,vector<int>& Arr2)
 void find_Values(int& L1,int& L2,int& R1,int& R2,vector<int>& Arr1,int mid1,vector<int>& Arr2,int mid2)
 {
     //Pick mid1 elements from Arr1 and mid2 elements from Array 2
-    int i=mid1-1,j=mid2-1;
+    int n1 = Arr1.size(),n2=Arr2.size();
+    if(mid1<n1)
+       R1=Arr1[mid1];
+    if(mid2<n2)
+        R2=Arr2[mid2];
 
-    L1=Arr1[i],L2=Arr2[j];
-    R1=Arr1[i+1],R2=Arr2[j+1];
+    if(mid1-1>=0)
+        L1=Arr1[mid1-1];
+    if(mid2-1>=0)
+        L2=Arr2[mid2-1];
+
 
 }
 /*
@@ -155,6 +162,9 @@ double MergeSortedArrayAndFindMedian_Sol3(vector<int>& Arr1,vector<int>& Arr2)
 {
     int n1 = Arr1.size();
     int n2 = Arr2.size();
+
+    if(n1>n2)
+        return MergeSortedArrayAndFindMedian_Sol3(Arr2,Arr1);
     int n = (n1+n2+1)/2;
     int L1 = -1e9,L2 = -1e9,R1 = 1e9,R2=1e9;
 
