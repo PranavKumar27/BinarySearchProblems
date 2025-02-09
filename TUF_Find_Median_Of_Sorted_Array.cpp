@@ -16,6 +16,8 @@ using namespace std;
         If n is  Odd  Median = (Arr[n/2])/2
 */
 
+// TC --> O(min(m,n)) + O(m-min(m,n)) + O(n-min(m,n))  ~~ 3*O(N)
+// SC --> O(m+n) for Storing Merged Array
 int MergeSortedArrayAndFindMedian_Sol1(vector<int>& Arr1,vector<int>& Arr2,vector<int> Arr3)
 {
     int m = Arr1.size(),n=Arr2.size();
@@ -25,11 +27,15 @@ int MergeSortedArrayAndFindMedian_Sol1(vector<int>& Arr1,vector<int>& Arr2,vecto
     {
         if(Arr1[i]<Arr2[j])
         {
-            Arr3[k++] = Arr1[i++];
+            Arr3[k] = Arr1[i];
+            k++;
+            i++;
         }
         else
         {
-            Arr3[k++] = Arr2[j++];
+            Arr3[k] = Arr2[j];
+            k++;
+            j++;
         }
     }
 
@@ -47,6 +53,16 @@ int MergeSortedArrayAndFindMedian_Sol1(vector<int>& Arr1,vector<int>& Arr2,vecto
         return (Arr3[mid]+Arr3[mid-1])/2;
 }
 
+/*
+    The Solution 2 is same as Solution Except the fact that we don't have third Array Arr3
+
+    Instead we store the indexs from Hypothetical Arr3 as idx1 and idx2,
+    We keep on increasing 'k' and compare if k=idx1 or k=idx2
+    This k is an index in Hypothetical Arr3
+*/
+
+// TC --> O(min(m,n)) + O(m-min(m,n)) + O(n-min(m,n))  ~~ 3*O(N)
+// SC --> O(1)
 int MergeSortedArrayAndFindMedian_Sol2(vector<int>& Arr1,vector<int>& Arr2)
 {
     int m = Arr1.size(),n=Arr2.size();
@@ -64,26 +80,27 @@ int MergeSortedArrayAndFindMedian_Sol2(vector<int>& Arr1,vector<int>& Arr2)
         idx2 = mid-1;
     }
 
-
+    int k = 0; // This is the count of Hypothetical Merged Array
     while(i<m && j<n)
     {
-        if(Arr1[i]<=Arr2[j])
+        if(Arr1[i]<Arr2[j])
         {
-            i++;
-            if(idx1==i+j+1)
+            if(k==idx1)
                 v1 = Arr1[i];
-            if(idx2==i+j+1)
+            if(k==idx2)
                 v2 = Arr1[i];
-
+            i++;
+            k++;
             //cout << "Increase i =" << i << "  v1=" << v1 << " v2=" << v2 << endl;
         }
         else
         {
-            j++;
-            if(idx1==i+j+1)
+            if(k==idx1)
                 v1 = Arr2[j];
-            if(idx2==i+j+1)
+            if(k==idx2)
                 v2 = Arr2[j];
+            j++;
+            k++;
 
             //cout << "Increase j =" << j << "  v1=" << v1 << "  v2=" << v2 << endl;
         }
@@ -91,22 +108,23 @@ int MergeSortedArrayAndFindMedian_Sol2(vector<int>& Arr1,vector<int>& Arr2)
 
     while(i<m)
     {
-        i++;
-       if(idx1==i+j+1)
+        if(k==idx1)
             v1 = Arr1[i];
-       if(idx2==i+j+1)
+        if(k==idx2)
             v2 = Arr1[i];
+        i++;
+        k++;
 
     }
 
     while(j<n)
     {
-        j++;
-        if(idx1==i+j+1)
+        if(k==idx1)
             v1 = Arr2[j];
-        if(idx2==i+j+1)
+        if(k==idx2)
             v2 = Arr2[j];
-
+        j++;
+        k++;
     }
 
     //cout << "v1=" << v1 << endl;
@@ -158,6 +176,9 @@ void find_Values(int& L1,int& L2,int& R1,int& R2,vector<int>& Arr1,int mid1,vect
 
 
 */
+
+// TC --> O(Log(min(m,n))) ~~ O(LogN)
+// SC --> O(1)
 double MergeSortedArrayAndFindMedian_Sol3(vector<int>& Arr1,vector<int>& Arr2)
 {
     int n1 = Arr1.size();
